@@ -1,4 +1,4 @@
-package com.camquevedo.productManager;
+package com.camquevedo.productManager.Service;
 
 import com.camquevedo.productManager.models.v1.Product;
 import com.camquevedo.productManager.repository.v1.ProductRepository;
