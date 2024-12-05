@@ -2,6 +2,8 @@ package com.camquevedo.productManager.service.v1;
 
 import com.camquevedo.productManager.models.v1.Product;
 import com.camquevedo.productManager.repository.v1.ProductRepository;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -28,16 +30,22 @@ public class ProductService {
         return repository.findById(id);
     }
 
-    public Product update (Long id, Product updatedProduct) {
-        return repository.findById(id)
-                .map(product -> {
-                    product.setName(updatedProduct.getName());
-                    product.setDescription(updatedProduct.getDescription());
-                    product.setPrice(updatedProduct.getPrice());
-                    product.setStock(updatedProduct.getStock());
+    public ResponseEntity<Product> update (Long id, Product updatedProduct) {
 
-                    return repository.save(product);
-                }).orElseThrow(()-> new RuntimeException("Product not found"));
+        Optional<Product> productResponse = repository.findById(id);
+            if (productResponse.isEmpty()) {
+                return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+            }
+
+            Product currentProduct = productResponse.get();
+
+            currentProduct.setName(updatedProduct.getName());
+            currentProduct.setDescription(updatedProduct.getDescription());
+            currentProduct.setPrice(updatedProduct.getPrice());
+            currentProduct.setStock(updatedProduct.getStock());
+
+            repository.save(currentProduct);
+            return ResponseEntity.ok(updatedProduct);
     }
 
     public void delete (Long id) {
