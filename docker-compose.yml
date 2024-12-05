@@ -6,10 +6,11 @@ services:
     container_name: backend-service
     working_dir: /app
     volumes:
-      - ./target/product-manager-0.0.1-SNAPSHOT.jar:/app/productManager.jar
+          - ./target/productManager-0.0.1-SNAPSHOT.jar:/app/productManager-0.0.1-SNAPSHOT.jar
+
     ports:
       - "8080:8080"
-    command: ["java", "-jar", "/app/productManager.jar"]
+    command: ["java", "-jar", "/app/productManager-0.0.1-SNAPSHOT.jar"]
     environment:
       SPRING_PROFILES_ACTIVE: prod
     depends_on:
